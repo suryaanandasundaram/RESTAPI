@@ -1,0 +1,22 @@
+newman run D:\RESTAPI\Calci-Addition.postman_collection.json &&  -g D:\RESTAPI\workspace.postman_globals.json -e D:\RESTAPI\OpenWhether-Server.postman_environment.json -r htmlextra
+
+newman run D:\RESTAPI\PaypolCollection.postman_collection.json -g D:\RESTAPI\workspace.postman_globals.json -e D:\RESTAPI\OpenWhether-Server.postman_environment.json -r htmlextra && newman run D:\RESTAPI\Calci-Addition.postmanwithcsv_collection.json -d D:\RESTAPI\Calci-Add.json -r htmlextra
+
+
+newman run D:\RESTAPI\JIRA.postman_collection.json -r htmlextra
+
+Use this when Jenkins is not opening in 8080, jetty error
+java -jar jenkins.war --httpPort=8081
+
+
+Use this when Jenkins is not opening in 8080, jetty error
+java -jar jenkins.war --httpPort=8081
+If plug in not installed
+java -jar jenkins.war --enable-future-java
+If version is not supported:
+Downgrade it to 17th version, setup in the environment variable to fix the problem
+if you are running with higher version
+java -jar jenkins.war --enable-future-java
+
+
+8be04d6444022110cecdb356ffab26b1
