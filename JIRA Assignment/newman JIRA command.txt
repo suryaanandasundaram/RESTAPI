@@ -1,0 +1,1 @@
+newman run D:\RESTAPI\JIRA.postman_collection.json -r htmlextra
