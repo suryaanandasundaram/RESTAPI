@@ -12,12 +12,12 @@ import io.restassured.specification.RequestSpecification;
 public class PostIncidentsWithBodyAsFile {
 
 	@Test
-	public void postInci() {
+	public void putInci() {
 		// Requirements
 
 		// Endpoint with resources
 
-		RestAssured.baseURI = "https://dev68818.service-now.com/api/now/table/incident";
+		RestAssured.baseURI = "https://dev68818.service-now.com/api/now/table/change_request/52b5c3324702211041cb93bd436d4328";
 
 		// Construct the request (params, auth, etc)
 
@@ -27,9 +27,10 @@ public class PostIncidentsWithBodyAsFile {
 		RequestSpecification inputRequest = RestAssured.given().contentType(ContentType.JSON).body(file);
 
 		// Send the request (http methods)
-		Response response = inputRequest.post();
+		Response response = inputRequest.put();
 
 		// Validate the response(with status code and response as string)
 		response.prettyPrint();
+		
 	}
 }
