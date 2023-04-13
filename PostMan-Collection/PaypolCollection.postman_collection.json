@@ -1,0 +1,283 @@
+{
+	"info": {
+		"_postman_id": "a8830a13-d7c2-4e64-94b1-3b25ee3edbd6",
+		"name": "Paypol Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26547799"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"Resp = pm.response.json();\r",
+							"pm.globals.set(\"AccessToken\",Resp.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "EMnAWe06ioGtouJs7gLYT9chK9-2jJ--7MKRXpI8FesmY_2Kp-d_7aCqff7M9moEJBvuXoBO4clKtY0v",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "AUv8rrc_P-EbP2E0mpb49BV7rFt3Usr-vdUZO8VGOnjRehGHBXkSzchr37SYF2GNdQFYSp72jh5QUhzG",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Co",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/v1/oauth2/token",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"oauth2",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"Resp = pm.response.json();\r",
+							"pm.globals.set(\"orderId\",Resp.id);\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"CREATED\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{AccessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"intent\": \"CAPTURE\",\r\n    \"purchase_units\": [\r\n        {\r\n            \"items\": [\r\n                {\r\n                    \"name\": \"T-Shirt\",\r\n                    \"description\": \"Green XL\",\r\n                    \"quantity\": \"1\",\r\n                    \"unit_amount\": {\r\n                        \"currency_code\": \"USD\",\r\n                        \"value\": \"100.00\"\r\n                    }\r\n                }\r\n            ],\r\n            \"amount\": {\r\n                \"currency_code\": \"USD\",\r\n                \"value\": \"100.00\",\r\n                \"breakdown\": {\r\n                    \"item_total\": {\r\n                        \"currency_code\": \"USD\",\r\n                        \"value\": \"100.00\"\r\n                    }\r\n                }\r\n            }\r\n        }\r\n    ],\r\n    \"application_context\": {\r\n        \"return_url\": \"https://example.com/return\",\r\n        \"cancel_url\": \"https://example.com/cancel\"\r\n    }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/v2/checkout/orders",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v2",
+						"checkout",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Transactions",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{AccessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/v1/reporting/transactions?fields=transaction_info,payer_info,shipping_info,auction_info,cart_info,incentive_info,store_info&start_date=2022-02-20T23:59:59.999Z&end_date=2022-03-20T00:00:00.000Z",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"reporting",
+						"transactions"
+					],
+					"query": [
+						{
+							"key": "fields",
+							"value": "transaction_info,payer_info,shipping_info,auction_info,cart_info,incentive_info,store_info"
+						},
+						{
+							"key": "start_date",
+							"value": "2022-02-20T23:59:59.999Z"
+						},
+						{
+							"key": "end_date",
+							"value": "2022-03-20T00:00:00.000Z"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Show Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{AccessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/v2/checkout/orders/:order_id",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v2",
+						"checkout",
+						"orders",
+						":order_id"
+					],
+					"variable": [
+						{
+							"key": "order_id",
+							"value": "{{orderId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List All balances",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{AccessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/v1/reporting/balances?as_of_time=2022-03-20T00:00:00.000Z&currency_code=ALL&include_crypto_currencies=true",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"reporting",
+						"balances"
+					],
+					"query": [
+						{
+							"key": "as_of_time",
+							"value": "2022-03-20T00:00:00.000Z"
+						},
+						{
+							"key": "currency_code",
+							"value": "ALL"
+						},
+						{
+							"key": "include_crypto_currencies",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://api-m.sandbox.paypal.com"
+		}
+	]
+}
