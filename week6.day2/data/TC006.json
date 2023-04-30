@@ -1,0 +1,10 @@
+{
+    "type": "transfer",
+    "dispute": "ok",
+    "ref": "",
+    "description": "transfer was made for demo purposes",
+    "amount": 5300,
+    "TransfertoAccountId": "6429628eba9f8a0047adad12",
+    "balance": 100,
+    "accountId": "642908ffba9f8a0047adacfe"
+}
